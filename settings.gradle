@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'FPT'
-include('uebung8', 'uebung9', 'uebung10', 'uebung11', 'uebung12')
+include('uebung', 'uebung8', 'uebung9', 'uebung10', 'uebung11', 'uebung12')

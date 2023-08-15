@@ -1,7 +1,9 @@
+package fpt.uebung;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-class deadlock {
+public class deadlock {
 	static void joinOrTimeout(Thread t, int milliseconds) {
 		try {
 			t.join(milliseconds);
@@ -9,10 +11,11 @@ class deadlock {
 			System.err.println("Timed out: possible deadlock");
 		}
 	}
-	public static void main(String[] args) {
+
+	public static void main() {
 		var account1 = new Account();
 		var account2 = new Account();
-		
+
 		var t1 = new Thread(() -> Bank.transferMoney(account1, account2, 100.0));
 		var t2 = new Thread(() -> Bank.transferMoney(account2, account1, 50.));
 		// t1.start(); t2.start();
@@ -21,13 +24,15 @@ class deadlock {
 
 		t1 = new Thread(() -> Bank.transferWithDynamicOrder(account1, account2, 50.));
 		t2 = new Thread(() -> Bank.transferWithDynamicOrder(account2, account1, 100.));
-		t1.start(); t2.start();
+		t1.start();
+		t2.start();
 
 		joinOrTimeout(t1, 1000);
 
 		t1 = new Thread(() -> Bank.transferWithTryLock(account1, account2, 50.));
 		t2 = new Thread(() -> Bank.transferWithTryLock(account2, account1, 100.));
-		t1.start(); t2.start();
+		t1.start();
+		t2.start();
 
 		joinOrTimeout(t1, 1000);
 	}
@@ -35,7 +40,7 @@ class deadlock {
 
 class Bank {
 	// transfer, thread-unsafe
-	static void transfer(Account fromAcc,Account  toAcc, Double amount) {
+	static void transfer(Account fromAcc, Account toAcc, Double amount) {
 		if (fromAcc.balance < amount) {
 			// TODO: error
 			return;
@@ -51,13 +56,13 @@ class Bank {
 		} catch (Exception e) {
 			System.err.println("Sleep Interrupted");
 		}
-	} 
+	}
 
 	// Can cause Left-Right Deadlock
 	static void transferMoney(Account fromAcc, Account toAcc, Double amount) {
-		synchronized(fromAcc) {
+		synchronized (fromAcc) {
 			sleepSafe(1000);
-			synchronized(toAcc) {
+			synchronized (toAcc) {
 				transfer(fromAcc, toAcc, amount);
 			}
 		}
@@ -69,16 +74,16 @@ class Bank {
 		int toHash = System.identityHashCode(toAcc);
 
 		if (fromHash < toHash) {
-			synchronized(fromAcc) {
+			synchronized (fromAcc) {
 				sleepSafe(1000);
-				synchronized(toAcc) {
+				synchronized (toAcc) {
 					transfer(fromAcc, toAcc, amount);
 				}
 			}
 		} else {
-			synchronized(toAcc) {
+			synchronized (toAcc) {
 				sleepSafe(1000);
-				synchronized(fromAcc) {
+				synchronized (fromAcc) {
 					transfer(fromAcc, toAcc, amount);
 				}
 			}

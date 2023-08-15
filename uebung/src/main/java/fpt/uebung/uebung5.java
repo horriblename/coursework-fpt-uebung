@@ -1,3 +1,5 @@
+package fpt.uebung;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,18 +11,19 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
 
-class main {
-	public static void main(String[] args) {
-		task1(args);
+class uebung5 {
+	public static void main() {
+		// requires stdin
+		// task1();
 		task2();
-		Task3.main(args);
+		Task3.main();
 	}
 
-	static void task1(String[] args) {
+	static void task1() {
 		Scanner in = new Scanner(System.in);
 		boolean quit = false;
 
-		while(!quit) {
+		while (!quit) {
 			System.out.print("Enter file path: ");
 			String command = in.nextLine();
 			if (command.strip().equals("quit") || command.equals("")) {
@@ -62,7 +65,7 @@ class main {
 		printPerson(john);
 
 		// d)
-		List<Person>people = new ArrayList<Person>();
+		List<Person> people = new ArrayList<Person>();
 		people.add(john);
 		people.add(new Person("Joe", "Schmoe", 3, 70));
 		people.add(new Person("Zane", "Ol", 76, 150));
@@ -75,12 +78,10 @@ class main {
 		}
 
 		System.out.println("Sorting by height...");
-		// NOTE `Comparator<T>` interface is a _Functional Interface_; it has only one abstract
+		// NOTE `Comparator<T>` interface is a _Functional Interface_; it has only one
+		// abstract
 		// method. It can be implemented as a lambda.
-		people.sort((p1, p2) -> 
-				p1.getHeight() == p2.getHeight()? 0 :
-				p1.getHeight() > p2.getHeight()? 1 :
-				-1);
+		people.sort((p1, p2) -> p1.getHeight() == p2.getHeight() ? 0 : p1.getHeight() > p2.getHeight() ? 1 : -1);
 
 		for (Person person : people) {
 			printPerson(person);
@@ -94,8 +95,7 @@ class main {
 				person.getLastName(),
 				person.getFirstName(),
 				person.getAge(),
-				person.getHeight()
-		);
+				person.getHeight());
 	}
 }
 
@@ -104,7 +104,7 @@ class Person {
 	int age;
 	double height;
 
-	Person(String last, String first,int a,double h) throws IllegalArgumentException {
+	Person(String last, String first, int a, double h) throws IllegalArgumentException {
 		Objects.requireNonNull(last, "last name must not be null");
 		Objects.requireNonNull(first, "first name must not be null");
 		if (a < 0 || h < 0) {
@@ -116,16 +116,19 @@ class Person {
 		age = a;
 		height = h;
 	}
-	
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public int getAge() {
 		return age;
 	}
+
 	public double getHeight() {
 		return height;
 	}
@@ -143,7 +146,7 @@ class PersonAgeComparator implements Comparator<Person> {
 }
 
 class Task3 {
-	public static void main(String[] args) {
+	public static void main() {
 		var primes = new HashSet<Integer>();
 		var odds = new HashSet<Integer>();
 		var fibs = new HashSet<Integer>();

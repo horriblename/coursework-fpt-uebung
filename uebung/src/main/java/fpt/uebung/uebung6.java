@@ -1,5 +1,7 @@
-class ubung6 {
-	public static void main(String[] args) {
+package fpt.uebung;
+
+class uebung6 {
+	public static void main() {
 		// a)
 		var o1 = new Point(0, 0);
 		var o2 = new Point(0, 0);
@@ -43,7 +45,7 @@ class ColorPoint {
 	Color color;
 	Point point;
 
-	public int getColor() {
+	public Color getColor() {
 		return color;
 	}
 
@@ -52,13 +54,13 @@ class ColorPoint {
 	}
 }
 
-record Color(byte red, byte green, byte blue) {
-}
+// record Color(byte red, byte green, byte blue) {
+// }
 
-class CounterPoint extends Point {
-	static int counter = 0;
-
-	public CounterPoint() {
-		counter++;
-	}
-}
+// class CounterPoint extends Point {
+// static int counter = 0;
+//
+// public CounterPoint() {
+// counter++;
+// }
+// }
