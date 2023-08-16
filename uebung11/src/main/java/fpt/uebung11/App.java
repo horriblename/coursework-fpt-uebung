@@ -34,20 +34,6 @@ public class App {
 	}
 }
 
-class User {
-	String userName;
-	String pwd;
-	String lastName;
-	String firstName;
-
-	public User(String userName, String pwd, String lastName, String firstName) {
-		this.userName = userName;
-		this.pwd = pwd;
-		this.lastName = lastName;
-		this.firstName = firstName;
-	}
-}
-
 class Client {
 	static final int port = 9000;
 

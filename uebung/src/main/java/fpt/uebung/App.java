@@ -31,12 +31,13 @@ public class App {
 		uebung6.main();
 
 		System.out.println("\n=== uebung 7 ===");
-		uebung7.main();
+		// uebung7.main();
 
 		System.out.println("\n=== deadlock ===");
 		deadlock.main();
 
 		MyRunnable.main();
+		Restaurant.main();
 	}
 }
 
@@ -354,7 +355,75 @@ class MyRunnable implements Runnable {
 //}}}
 
 // Producer Consumer Problem / wait and notify {{{
+class Restaurant {
+	// Void is the unit type of java, its only value is null
+	private List<Void> dishes = new ArrayList();
+	private int maxDishes = 30;
 
+	void washDish() {
+		synchronized(dishes) {
+			while (dishes.size() == 0) {
+				try {
+					dishes.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			dishes.remove(0);
+			System.out.print("-");
+			dishes.notifyAll();
+		}
+	}
+
+	void addDirty() {
+		synchronized(dishes) {
+			while (dishes.size() == maxDishes) {
+				try {
+					dishes.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+			dishes.add(null);
+			System.out.print("+");
+			dishes.notifyAll();
+		}
+	}
+
+	public static void main() {
+		var r = new Restaurant();
+		int maxWashers = 15;
+		int maxWaiters = 20;
+
+		var washers = new ArrayList<Thread>();
+		for (int i = 0; i < maxWashers; i++) {
+			washers.add(new Thread(() -> {
+				for (int j = 0; j < 500; j++) {
+					r.washDish();
+				}
+			}));
+		}
+		var waiters = new ArrayList<Thread>();
+		for (int i = 0; i < maxWaiters; i++) {
+			waiters.add(new Thread(() -> {
+				for (int j = 0; j < 500; j++) {
+					r.addDirty();
+				}
+			}));
+		}
+		for (var w : washers) { w.start(); }
+		for (var w : waiters) { w.start(); }
+
+		try {
+			for (var w : washers) { w.join(); }
+			for (var w : waiters) { w.join(); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
 // }}}
 
 // Async with Callables {{{
