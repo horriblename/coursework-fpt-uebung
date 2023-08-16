@@ -1,6 +1,6 @@
 package fpt.uebung;
 
-class uebung6 {
+public class uebung6 {
 	public static void main() {
 		// a)
 		var o1 = new Point(0, 0);
@@ -36,26 +36,40 @@ class Point {
 		y = n;
 	}
 
-	public boolean equals(Point other) {
-		return x == other.x && y == other.y;
+	@Override
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if (!(other instanceof Point))
+			return false;
+
+		Point point = (Point) other;
+		return x == point.x && y == point.y;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Integer.hashCode(x);
+		result = 31 * result + Integer.hashCode(y);
+		return result;
 	}
 }
 
 class ColorPoint {
-	Color color;
+	ColorRGB color;
 	Point point;
 
-	public Color getColor() {
+	public ColorRGB getColor() {
 		return color;
 	}
 
-	public void setColor(Color n) {
+	public void setColor(ColorRGB n) {
 		color = n;
 	}
 }
 
-// record Color(byte red, byte green, byte blue) {
-// }
+record ColorRGB(byte red, byte green, byte blue) {
+}
 
 // class CounterPoint extends Point {
 // static int counter = 0;

@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
 
-class uebung5 {
+public class uebung5 {
 	public static void main() {
 		// requires stdin
 		// task1();
